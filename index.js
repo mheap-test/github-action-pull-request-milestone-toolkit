@@ -32,4 +32,17 @@ Toolkit.run(async (tools) => {
 
   const pullCount = pulls.length;
   tools.log.debug(`There are ${pullCount} Pull Requests`);
+
+  const message = tools.inputs[`merged_${pullCount}`];
+  if (!message) {
+    tools.log.info("No action required");
+    return;
+  }
+
+  tools.log.pending(`Adding comment`);
+  await tools.github.issues.createComment({
+    ...tools.context.issue,
+    body: message,
+  });
+  tools.log.complete(`Added comment: ${message}`);
 });
