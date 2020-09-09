@@ -45,4 +45,12 @@ Toolkit.run(async (tools) => {
     body: message,
   });
   tools.log.complete(`Added comment: ${message}`);
+
+  tools.log.pending(`Adding labels`);
+  const labels = [`merge-milestone`, `merge-milestone:${pullCount}`];
+  await tools.github.issues.addLabels({
+    ...tools.context.issue,
+    labels,
+  });
+  tools.log.complete(`Added labels:`, labels);
 });
